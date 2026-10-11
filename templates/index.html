@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f4f7f3">
+    <title>GlucoScope | Risk assessment</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <a class="brand" href="#overview" aria-label="GlucoScope overview">
+                <span class="brand-mark" aria-hidden="true">g</span>
+                <span>gluco<span>scope</span></span>
+            </a>
+            <div class="sidebar-label">WORKSPACE</div>
+            <nav aria-label="Main navigation">
+                <a class="nav-link active" href="#overview"><span class="nav-icon" aria-hidden="true">◫</span> Overview</a>
+                <a class="nav-link" href="#assessment"><span class="nav-icon" aria-hidden="true">＋</span> New assessment</a>
+                <a class="nav-link" href="#records"><span class="nav-icon" aria-hidden="true">▤</span> Saved records</a>
+            </nav>
+            <div class="sidebar-note">
+                <span class="note-dot"></span>
+                <div><strong>Private by design</strong><p>Your saved assessments stay in this browser.</p></div>
+            </div>
+            <div class="sidebar-footer">GLUCOSCOPE <span>·</span> PERSONAL HEALTH</div>
+        </aside>
+
+        <main class="main-content">
+            <header class="topbar">
+                <div class="breadcrumb">Workspace <span>/</span> Overview</div>
+                <div class="today-label"><span class="status-dot"></span> Risk assessment workspace</div>
+            </header>
+
+            <section id="overview" aria-labelledby="overviewHeading">
+                <div class="page-heading">
+                    <div>
+                        <p class="eyebrow">YOUR HEALTH SNAPSHOT</p>
+                        <h1 id="overviewHeading">Diabetes risk assessment</h1>
+                        <p class="heading-copy">Review your assessment summary and the measurements used for an estimate.</p>
+                    </div>
+                    <a class="primary-link" href="#assessment"><span aria-hidden="true">＋</span> New assessment</a>
+                </div>
+
+                <section class="metric-grid" aria-label="Assessment summary">
+                    <article class="metric-card metric-total">
+                        <div class="metric-top"><span>Assessments saved</span><span class="metric-icon">▤</span></div>
+                        <div class="metric-value" id="totalCount">0</div>
+                        <div class="metric-caption">In this browser</div>
+                    </article>
+                    <article class="metric-card metric-diabetic">
+                        <div class="metric-top"><span>Diabetic predictions</span><span class="metric-icon">↗</span></div>
+                        <div class="metric-value" id="diabeticCount">0</div>
+                        <div class="metric-caption">Based on model classification</div>
+                    </article>
+                    <article class="metric-card metric-non-diabetic">
+                        <div class="metric-top"><span>Non-diabetic predictions</span><span class="metric-icon">✓</span></div>
+                        <div class="metric-value" id="nonDiabeticCount">0</div>
+                        <div class="metric-caption">Based on model classification</div>
+                    </article>
+                    <article class="metric-card metric-rate">
+                        <div class="metric-top"><span>Latest estimate</span><span class="metric-icon">◷</span></div>
+                        <div class="metric-value metric-value-small" id="latestEstimate">—</div>
+                        <div class="metric-caption" id="latestCaption">No assessment yet</div>
+                    </article>
+                </section>
+
+                <section class="panel measurements-panel" aria-labelledby="measurementsHeading">
+                    <div class="panel-heading">
+                        <div><p class="eyebrow">WHAT GOES INTO AN ESTIMATE</p><h2 id="measurementsHeading">Clinical measurements</h2></div>
+                        <span class="field-count">8 INPUTS</span>
+                    </div>
+                    <p class="panel-description">Use recent values from your health records. The model considers all eight measurements together.</p>
+                    <ul class="measurement-list">
+                        <li><strong>Pregnancies</strong><span>Number of pregnancies</span></li>
+                        <li><strong>Glucose</strong><span>Glucose concentration (mg/dL)</span></li>
+                        <li><strong>Blood pressure</strong><span>Diastolic pressure (mmHg)</span></li>
+                        <li><strong>Skin thickness</strong><span>Triceps skin fold (mm)</span></li>
+                        <li><strong>Insulin</strong><span>Serum insulin (μU/mL)</span></li>
+                        <li><strong>Body mass index</strong><span>BMI (kg/m²)</span></li>
+                        <li><strong>Diabetes pedigree</strong><span>Family-history index</span></li>
+                        <li><strong>Age</strong><span>Age in years</span></li>
+                    </ul>
+                    <p class="measurement-note">An estimate is informational only and does not replace a diagnosis or advice from a qualified clinician.</p>
+                </section>
+            </section>
+
+            <section id="assessment" aria-labelledby="assessmentHeading">
+                <div class="page-heading section-page-heading">
+                    <div>
+                        <p class="eyebrow">NEW CHECK-IN</p>
+                        <h1 id="assessmentHeading">New assessment</h1>
+                        <p class="heading-copy">Enter all eight measurements to calculate an estimate.</p>
+                    </div>
+                </div>
+                <section class="work-grid">
+                    <section class="panel assessment-panel" aria-labelledby="clinicalInputsHeading">
+                        <div class="panel-heading">
+                            <div><p class="eyebrow">YOUR MEASUREMENTS</p><h2 id="clinicalInputsHeading">Clinical measurements</h2></div>
+                            <span class="field-count">8 INPUTS</span>
+                        </div>
+                        <p class="panel-description">Enter the latest available values. All measurements are required for an estimate.</p>
+                        <form id="predictForm">
+                            <div class="field-grid">
+                                <label class="field"><span>Pregnancies</span><span class="input-wrap"><input name="Pregnancies" type="number" min="0" max="20" step="1" placeholder="0" required><small>count</small></span></label>
+                                <label class="field"><span>Glucose</span><span class="input-wrap"><input name="Glucose" type="number" min="0" max="300" step="1" placeholder="e.g. 110" required><small>mg/dL</small></span></label>
+                                <label class="field"><span>Blood pressure</span><span class="input-wrap"><input name="BloodPressure" type="number" min="0" max="200" step="1" placeholder="e.g. 72" required><small>mmHg</small></span></label>
+                                <label class="field"><span>Skin thickness</span><span class="input-wrap"><input name="SkinThickness" type="number" min="0" max="100" step="1" placeholder="e.g. 20" required><small>mm</small></span></label>
+                                <label class="field"><span>Insulin</span><span class="input-wrap"><input name="Insulin" type="number" min="0" max="1000" step="1" placeholder="e.g. 80" required><small>μU/mL</small></span></label>
+                                <label class="field"><span>Body mass index</span><span class="input-wrap"><input name="BMI" type="number" min="0" max="100" step="0.1" placeholder="e.g. 27.5" required><small>kg/m²</small></span></label>
+                                <label class="field"><span>Diabetes pedigree</span><span class="input-wrap"><input name="DiabetesPedigreeFunction" type="number" min="0" max="3" step="0.001" placeholder="e.g. 0.45" required><small>index</small></span></label>
+                                <label class="field"><span>Age</span><span class="input-wrap"><input name="Age" type="number" min="1" max="120" step="1" placeholder="e.g. 35" required><small>years</small></span></label>
+                            </div>
+                            <div class="form-footer">
+                                <p>Estimates support, but do not replace, clinical advice.</p>
+                                <div class="form-actions"><button class="secondary-button" type="reset">Clear fields</button><button class="submit-button" type="submit"><span aria-hidden="true">✦</span> Calculate estimate</button></div>
+                            </div>
+                            <p id="formMessage" class="form-message" role="status" aria-live="polite"></p>
+                        </form>
+                    </section>
+
+                    <section class="panel result-panel" aria-labelledby="resultHeading">
+                        <div class="panel-heading result-heading">
+                            <div><p class="eyebrow">MODEL OUTPUT</p><h2 id="resultHeading">Class probabilities</h2></div>
+                            <span class="live-tag"><span></span> READY</span>
+                        </div>
+                        <div class="chart-wrap"><canvas id="resultChart" role="img" aria-label="Pie chart showing diabetic and non-diabetic class probabilities"></canvas><div class="chart-center"><span id="probabilityValue">—</span><small>diabetic probability</small></div></div>
+                        <div class="result-status" id="resultStatus">Awaiting measurements</div>
+                        <p class="result-detail" id="resultDetail">Complete the assessment to see both model class probabilities.</p>
+                        <div class="result-legend"><span><i class="legend-dot non-diabetic"></i> Non-diabetic</span><span><i class="legend-dot diabetic"></i> Diabetic</span></div>
+                        <div class="result-disclaimer">A model estimate is not a diagnosis. Discuss health concerns and results with a qualified clinician.</div>
+                    </section>
+                </section>
+            </section>
+
+            <section class="panel records-panel" id="records">
+                <div class="records-heading">
+                    <div><p class="eyebrow">ASSESSMENT HISTORY</p><h2>Saved records</h2><p class="records-subtitle">Your recent check-ins, stored on this device.</p></div>
+                    <button class="text-button" id="clearRecords" type="button" disabled>Clear history</button>
+                </div>
+                <div class="table-scroll">
+                    <table>
+                        <thead><tr><th>DATE &amp; TIME</th><th>AGE</th><th>GLUCOSE</th><th>BMI</th><th>DIABETIC PROBABILITY</th><th>RESULT</th></tr></thead>
+                        <tbody id="recordsBody"><tr class="empty-row"><td colspan="6">No saved assessments. Your completed check-ins will appear here.</td></tr></tbody>
+                    </table>
+                </div>
+            </section>
+            <footer class="page-footer"><span>GLUCOSCOPE</span> Risk estimates are informational and not a substitute for a medical diagnosis.</footer>
+        </main>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
